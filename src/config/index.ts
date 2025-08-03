@@ -18,6 +18,9 @@ interface Config {
         version?: string;
         instance?: string;
     };
+    files: {
+        descriptions: string;
+    };
 }
 
 console.log(process.env.AZURE_OPENAI_API_KEY, process.env.AZURE_OPENAI_ENDPOINT, process.env.AZURE_OPENAI_DEPLOYMENT, process.env.OPENAI_API_VERSION);
@@ -37,6 +40,9 @@ export const config: Config = {
         version: process.env.OPENAI_API_VERSION,
         instance: process.env.AZURE_OPENAI_INSTANCE
     },
+    files: {
+        descriptions: process.env.DESCRIPTION_FILE || './data/description.json',
+    }
 }
 
 

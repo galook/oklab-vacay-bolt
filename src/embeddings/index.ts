@@ -40,4 +40,22 @@ export class VectorStore extends MemoryVectorStore {
         });
         super(embeddings);
     }
+
+    public async addProperties(properties: Property[]) {
+        const documents = properties.map(property => ({
+            id: property.id,
+            pageContent: property.description,
+            metadata: { name: property.name }
+        }));
+        await this.addDocuments(documents);
+    }
+
+    public async searchProperties(query: string, k: number = DEFAULT_SIMILARITY_SEARCH_K): Promise<Property[]> {
+        const results = await super.similaritySearch(query, k);
+        return results.map(result => ({
+            id: result.id || "",
+            description: result.pageContent || "",
+            name: result.metadata.name || ""
+        }));
+    }
 }
