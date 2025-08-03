@@ -9,7 +9,7 @@ export class VectorStore extends MemoryVectorStore {
             endpoint?: string;
             key?: string;
             version?: string;
-            instance?: string; // Optional, for Azure OpenAI instance name
+            instance?: string;
         },
         embeddings: {
             model?: string;
