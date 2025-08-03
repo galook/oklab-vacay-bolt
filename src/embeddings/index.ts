@@ -1,8 +1,8 @@
 import { AzureOpenAIEmbeddings } from "@langchain/openai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { version } from "os";
+import { Property } from "../types/interfaces";
 
-const DEFAULT_SIMILARITY_SEARCH_K = 30
+export const DEFAULT_SIMILARITY_SEARCH_K = 30
 export class VectorStore extends MemoryVectorStore {
     constructor(config: {
         azure: {
@@ -43,7 +43,7 @@ export class VectorStore extends MemoryVectorStore {
 
     public async addProperties(properties: Property[]) {
         const documents = properties.map(property => ({
-            id: property.id,
+            id: property.propertyId,
             pageContent: property.description,
             metadata: { name: property.name }
         }));
@@ -53,7 +53,7 @@ export class VectorStore extends MemoryVectorStore {
     public async searchProperties(query: string, k: number = DEFAULT_SIMILARITY_SEARCH_K): Promise<Property[]> {
         const results = await super.similaritySearch(query, k);
         return results.map(result => ({
-            id: result.id || "",
+            propertyId: result.id || "",
             description: result.pageContent || "",
             name: result.metadata.name || ""
         }));

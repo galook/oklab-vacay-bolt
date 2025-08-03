@@ -1,29 +1,7 @@
 import dotenv from 'dotenv';
-import { version } from 'os';
+import { Config } from '../types/interfaces';
 
 dotenv.config();
-
-interface Config {
-    env: string;
-    port: number | string;
-    embeddings: {
-        model: string;
-        maxTokens: number;
-        vectordb_path: string;
-        collection_name: string;
-    };
-    azure: {
-        endpoint?: string;
-        key?: string;
-        version?: string;
-        instance?: string;
-    };
-    files: {
-        descriptions: string;
-    };
-}
-
-console.log(process.env.AZURE_OPENAI_API_KEY, process.env.AZURE_OPENAI_ENDPOINT, process.env.AZURE_OPENAI_DEPLOYMENT, process.env.OPENAI_API_VERSION);
 
 export const config: Config = {
     env: process.env.NODE_ENV || 'development',
@@ -33,6 +11,7 @@ export const config: Config = {
         vectordb_path: process.env.VECTORDB_PATH || './chroma_db',
         collection_name: process.env.VECTORDB_COLLECTION_NAME || 'oklab_vacay_bolt',
         maxTokens: parseInt(process.env.EMBEDDING_MAX_TOKENS || '8192', 10),
+        propertiesAmountPerBatch: parseInt(process.env.PROPERTIES_AMOUNT_PER_BATCH || '100', 10),
     },
     azure: {
         endpoint: process.env.AZURE_OPENAI_ENDPOINT,
